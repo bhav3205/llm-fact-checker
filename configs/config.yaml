@@ -1,0 +1,50 @@
+# Fact Checker Configuration - Optimized for FREE usage
+
+# Claim Extraction Settings
+claim_extraction:
+  spacy_model: "en_core_web_sm"  # Smaller, faster model
+  use_checkworthiness: true
+  checkworthiness_threshold: 0.6
+
+# Embedding Settings
+embeddings:
+  model: "all-MiniLM-L6-v2"  # Fast, accurate, FREE
+  dimension: 384
+  batch_size: 32
+  normalize: true
+
+# Vector Store Settings - Qdrant (FREE, open-source)
+vector_store:
+  type: "qdrant"
+  collection_name: "fact_checker_v1"
+  distance_metric: "Cosine"  # Options: Cosine, Dot, Euclidean
+  path: "./data/vector_db"
+  score_threshold: 0.65
+
+# LLM Settings - Groq (FREE, ultra-fast)
+llm:
+  provider: "groq"
+  model: "llama-3.1-8b"  # Options: llama-3.1-8b, llama-3.1-70b, mixtral
+  temperature: 0.1
+  max_tokens: 1024
+  top_p: 0.95
+
+# Data Ingestion Settings
+data_ingestion:
+  pib_rss_url: "https://www.pib.gov.in/ViewRss.aspx"
+  max_statements: 100
+  update_frequency: "daily"
+  use_fallback: true
+
+# Pipeline Settings
+pipeline:
+  top_k_retrieval: 5
+  enable_filtering: true
+  cache_embeddings: true
+  log_level: "INFO"
+
+# Performance Settings
+performance:
+  use_gpu: false  # Set to true if GPU available
+  batch_processing: true
+  async_processing: false

@@ -1,0 +1,36 @@
+# Core NLP and ML
+spacy>=3.7.0
+sentence-transformers>=2.3.0
+transformers>=4.36.0
+torch>=2.1.0
+
+# Vector Database - Qdrant (FREE, open-source)
+qdrant-client>=1.7.0
+
+# LLM - Groq (FREE API with ultra-fast inference)
+groq>=0.4.1
+
+# Data processing
+numpy>=1.24.0
+pandas>=2.0.0
+feedparser>=6.0.10
+pydantic>=2.5.0
+
+# Web frameworks
+streamlit>=1.29.0
+gradio>=4.12.0
+
+# Utilities
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+requests>=2.31.0
+tqdm>=4.66.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-asyncio>=0.23.0
+
+# Optional: For better performance
+# accelerate>=0.25.0
+# optimum>=1.16.0

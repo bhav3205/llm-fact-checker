@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Streamlit application
+  fact-checker-streamlit:
+    build: .
+    container_name: llm-fact-checker-streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - LLM_MODEL=${LLM_MODEL:-qwen-2.5-32b}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-BAAI/bge-large-en-v1.5}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./outputs:/app/outputs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - fact-checker-network
+
+  # Gradio application (alternative)
+  fact-checker-gradio:
+    build: .
+    container_name: llm-fact-checker-gradio
+    command: ["python", "app/gradio_app.py"]
+    ports:
+      - "7860:7860"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - LLM_MODEL=${LLM_MODEL:-qwen-2.5-32b}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-BAAI/bge-large-en-v1.5}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./outputs:/app/outputs
+    restart: unless-stopped
+    profiles:
+      - gradio  # Only start with --profile gradio
+    networks:
+      - fact-checker-network
+
+networks:
+  fact-checker-network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
+  outputs:
